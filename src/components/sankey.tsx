@@ -12,54 +12,54 @@ type SankeyProps = {
 
 export class Sankey extends React.Component<SankeyProps, {}> {
     render() {
-        const ROUND_HEIGHT = 150;
-        const WIDTH = 500;
-        const BUFFER = 30;
-        const BAR_HEIGHT = 20;
-        const LABEL_MARGIN = 100;
-        const LABELSIZE = 130;
+        const ROUND_HEIGHT = 150
+        const WIDTH = 500
+        const BUFFER = 30
+        const BAR_HEIGHT = 20
+        const LABEL_MARGIN = 100
+        const LABELSIZE = 130
 
-        let rounds = this.props.data;
+        let rounds = this.props.data
 
-        let totalHeight = ROUND_HEIGHT * (rounds.length) + 2 * LABELSIZE;
+        let totalHeight = ROUND_HEIGHT * (rounds.length) + 2 * LABELSIZE
 
-        let firstRoundVotes = d3.sum(rounds[0].results as any, (d: CandidateVotes) => d.votes);
+        let firstRoundVotes = d3.sum(rounds[0].results as any, (d: CandidateVotes) => d.votes)
 
-        let firstRoundCandidates = rounds[0].results.length;
+        let firstRoundCandidates = rounds[0].results.length
 
         let xScale = d3.scaleLinear()
             .domain([0, firstRoundVotes])
-            .range([0, WIDTH - firstRoundCandidates * BUFFER - LABEL_MARGIN]);
+            .range([0, WIDTH - firstRoundCandidates * BUFFER - LABEL_MARGIN])
         let yScale = d3.scaleLinear()
             .domain([1, rounds.length])
-            .range([LABELSIZE + 5, totalHeight - BAR_HEIGHT - LABELSIZE - 5]);
+            .range([LABELSIZE + 5, totalHeight - BAR_HEIGHT - LABELSIZE - 5])
 
-        let nodes = [];
-        let edges = [];
-        let lastX = new Map();
-        let topLabels = [];
-        let bottomLabels = [];
+        let nodes = []
+        let edges = []
+        let lastX = new Map()
+        let topLabels = []
+        let bottomLabels = []
 
         for (let round of rounds) {
-            let cumX = (firstRoundCandidates - round.results.length) * BUFFER / 2;
-            let thisX = new Map();
-            let curX = new Map();
+            let cumX = (firstRoundCandidates - round.results.length) * BUFFER / 2
+            let thisX = new Map()
+            let curX = new Map()
 
             for (let candidate of round.results) {
-                let width = xScale(candidate.votes);
+                let width = xScale(candidate.votes)
                 nodes.push({
                     x: cumX,
                     y: yScale(round.round),
                     width: width,
                     data: candidate,
                     round: round,
-                });
+                })
 
                 if (round === rounds[0]) {
                     topLabels.push({
                         x: cumX + width / 2,
                         label: candidate.name
-                    });
+                    })
                 } else if (round === rounds[rounds.length - 1]) {
                     bottomLabels.push({
                         x: cumX + width / 2,
@@ -67,20 +67,20 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                     })
                 }
 
-                curX.set(candidate.name, cumX);
-                thisX.set(candidate.name, cumX);
+                curX.set(candidate.name, cumX)
+                thisX.set(candidate.name, cumX)
 
-                cumX += xScale(candidate.votes) + BUFFER;
+                cumX += xScale(candidate.votes) + BUFFER
             }
 
             for (let transfer of round.transfers) {
-                let width = xScale(transfer.count);
+                let width = xScale(transfer.count)
 
-                let x0 = lastX.get(transfer.from);
-                lastX.set(transfer.from, x0 + width);
+                let x0 = lastX.get(transfer.from)
+                lastX.set(transfer.from, x0 + width)
 
-                let x1 = curX.get(transfer.to);
-                curX.set(transfer.to, x1 + width);
+                let x1 = curX.get(transfer.to)
+                curX.set(transfer.to, x1 + width)
 
                 edges.push({
                     x0: x0,
@@ -90,23 +90,23 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                     width: width,
                     data: transfer,
                     round: round,
-                });
+                })
             }
 
-            lastX = thisX;
+            lastX = thisX
         }
 
         let sankeyPath = (e) => {
-            let x0 = e.x0;
-            let y0 = e.y0;
-            let x1 = e.x1;
-            let y1 = e.y1;
-            let width = e.width;
+            let x0 = e.x0
+            let y0 = e.y0
+            let x1 = e.x1
+            let y1 = e.y1
+            let width = e.width
 
-            let midY = (y0 + y1) / 2;
+            let midY = (y0 + y1) / 2
 
-            return `M${x0} ${y0} C ${x0} ${midY} ${x1} ${midY} ${x1} ${y1} H ${x1 + width} C ${x1 + width} ${midY} ${x0 + width} ${midY} ${x0 + width} ${y0} Z`;
-        };
+            return `M${x0} ${y0} C ${x0} ${midY} ${x1} ${midY} ${x1} ${y1} H ${x1 + width} C ${x1 + width} ${midY} ${x0 + width} ${midY} ${x0 + width} ${y0} Z`
+        }
 
         return <svg width="100%" viewBox={`0 0 ${WIDTH} ${totalHeight}`}>
             <g transform={`translate(${LABEL_MARGIN} 0)`}>
@@ -118,7 +118,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                             y={r.y}
                             width={r.width}
                             height={BAR_HEIGHT}
-                            fill={(r.data.candidate === null) ? "#333" : "#aa4488"}
+                            fill={(r.data.candidate === null) ? '#333' : '#aa4488'}
                             opacity={this.props.selected && (r.data == this.props.selected.node) ? 1.0 : 0.8}
                             onMouseOver={() => this.props.hoverNode(r.data, r.round)}
 

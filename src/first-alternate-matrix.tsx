@@ -6,7 +6,7 @@ import { CaptionedHeatmap } from './components/captioned-heatmap'
 
 export class FirstAlternateMatrix extends React.Component<{ data: PairwiseStat[], candidates: string[] }, {}> {
     render() {
-        const EXHAUSTED_BALLOT = '$UNDERVOTE';
+        const EXHAUSTED_BALLOT = '$UNDERVOTE'
         let data: HeatmapElement<PairwiseStat>[] = this.props.data.map((d) => {
             return {
                 row: d.first_candidate,
@@ -14,13 +14,13 @@ export class FirstAlternateMatrix extends React.Component<{ data: PairwiseStat[]
                 value: d.numerator / d.denominator,
                 data: d
             }
-        });
+        })
 
-        let cols = this.props.candidates.concat([EXHAUSTED_BALLOT]);
+        let cols = this.props.candidates.concat([EXHAUSTED_BALLOT])
 
         let generateCaption = (element: HeatmapElement<PairwiseStat>) => {
-            let data = element.data;
-            let pct = ((data.numerator / data.denominator) * 100).toFixed(1);
+            let data = element.data
+            let pct = ((data.numerator / data.denominator) * 100).toFixed(1)
 
             if (data.second_candidate === null) {
                 return <span>

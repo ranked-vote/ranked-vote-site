@@ -17,23 +17,23 @@ type CaptionedHeatmapState<D> = {
 
 export class CaptionedHeatmap<D> extends React.Component<CaptionedHeatmapProps<D>, CaptionedHeatmapState<D>> {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             selected: null
-        };
+        }
     }
 
     hoverCell(element: HeatmapElement<D>) {
         this.setState({
             selected: element
-        });
+        })
     }
 
     hoverOut() {
         this.setState({
             selected: null
-        });
+        })
     }
 
     render() {

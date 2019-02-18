@@ -20,25 +20,25 @@ type HeatmapProps<D> = {
 
 export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
     render() {
-        const SIZE = 50;
-        const LABELSIZE = 130;
-        const MARGIN = 10;
-        const FONT_SIZE = '8pt';
-        const COLOR_SCALE_RANGE = ['#eeeeee', '#ce6b14'];
+        const SIZE = 50
+        const LABELSIZE = 130
+        const MARGIN = 10
+        const FONT_SIZE = '8pt'
+        const COLOR_SCALE_RANGE = ['#eeeeee', '#ce6b14']
 
         let xScale = d3.scaleOrdinal()
             .domain(this.props.cols)
-            .range(this.props.cols.map((_, i) => i * SIZE));
+            .range(this.props.cols.map((_, i) => i * SIZE))
         let yScale = d3.scaleOrdinal()
             .domain(this.props.rows)
-            .range(this.props.rows.map((_, i) => i * SIZE));
+            .range(this.props.rows.map((_, i) => i * SIZE))
 
-        let colorScale = d3.scaleLinear().domain([0, 1]).range(COLOR_SCALE_RANGE as any);
+        let colorScale = d3.scaleLinear().domain([0, 1]).range(COLOR_SCALE_RANGE as any)
 
-        let width = LABELSIZE + MARGIN + SIZE * this.props.cols.length;
+        let width = LABELSIZE + MARGIN + SIZE * this.props.cols.length
         let height = LABELSIZE + MARGIN + SIZE * this.props.rows.length
 
-        return <svg width={width} style={{ maxWidth: "100%" }} viewBox={`0 0 ${width} ${height}`}>
+        return <svg width={width} style={{ maxWidth: '100%' }} viewBox={`0 0 ${width} ${height}`}>
             <text textAnchor="middle" x={LABELSIZE + (width - LABELSIZE) / 2} dominantBaseline="text-before-edge">{this.props.xlabel}</text>
             <text textAnchor="middle" dominantBaseline="text-before-edge" transform={`translate(0 ${LABELSIZE + (height - LABELSIZE) / 2}) rotate(-90)`}>{this.props.ylabel}</text>
 

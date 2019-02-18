@@ -13,48 +13,48 @@ type CaptionedSankeyState = {
 
 export class CaptionedSankey extends React.Component<CaptionedSankeyProps, CaptionedSankeyState> {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             selected: null
-        };
+        }
     }
 
     hoverNode(node: CandidateVotes, round: Round) {
         this.setState({
             selected: { node, round }
-        });
+        })
     }
 
     hoverEdge(edge: VoteTransfer, round: Round) {
         this.setState({
             selected: { edge, round }
-        });
+        })
     }
 
     hoverOut() {
         this.setState({
             selected: null
-        });
+        })
     }
 
     generateCaption() {
-        let round = this.state.selected.round;
+        let round = this.state.selected.round
         if (this.state.selected.edge) {
-            let edge = this.state.selected.edge;
+            let edge = this.state.selected.edge
 
             if (edge.from === null && edge.to === null) {
-                return <span><strong>{edge.count.toLocaleString()}</strong> exhaused or spoiled ballots carried over to <strong>round&nbsp;{round.round}</strong>.</span>;
+                return <span><strong>{edge.count.toLocaleString()}</strong> exhaused or spoiled ballots carried over to <strong>round&nbsp;{round.round}</strong>.</span>
             } else if (edge.to === null) {
-                return <span><strong>{edge.from}</strong> was eliminated in <strong>round&nbsp;{round.round}</strong>, causing <strong>{edge.count.toLocaleString()}</strong> ballots to be exhaused because they had no further preferences.</span>;
+                return <span><strong>{edge.from}</strong> was eliminated in <strong>round&nbsp;{round.round}</strong>, causing <strong>{edge.count.toLocaleString()}</strong> ballots to be exhaused because they had no further preferences.</span>
             } else if (edge.from === edge.to) {
-                return <span><strong>{edge.to}</strong> remained in <strong>round&nbsp;{round.round}</strong>, keeping <strong>{edge.count.toLocaleString()}</strong> votes from <strong>round&nbsp;{round.round - 1}</strong>.</span>;
+                return <span><strong>{edge.to}</strong> remained in <strong>round&nbsp;{round.round}</strong>, keeping <strong>{edge.count.toLocaleString()}</strong> votes from <strong>round&nbsp;{round.round - 1}</strong>.</span>
             } else {
-                return <span><strong>{edge.from}</strong> was eliminated in <strong>round&nbsp;{round.round}</strong>, transferring <strong>{edge.count.toLocaleString()}</strong> votes to <strong>{edge.to}</strong>.</span>;
+                return <span><strong>{edge.from}</strong> was eliminated in <strong>round&nbsp;{round.round}</strong>, transferring <strong>{edge.count.toLocaleString()}</strong> votes to <strong>{edge.to}</strong>.</span>
             }
 
         } else if (this.state.selected.node) {
-            let node = this.state.selected.node;
+            let node = this.state.selected.node
             if (node.name === null) {
                 if (round.round == 1) {
                     return <span><strong>{node.votes.toLocaleString()}</strong> ballots either did not vote in this race, or were spoiled ballots.</span>
@@ -63,11 +63,11 @@ export class CaptionedSankey extends React.Component<CaptionedSankeyProps, Capti
                 }
 
             } else {
-                return <span><strong>{node.name}</strong> received <strong>{node.votes.toLocaleString()}</strong> votes in <strong>round&nbsp;{round.round}</strong>.</span>;
+                return <span><strong>{node.name}</strong> received <strong>{node.votes.toLocaleString()}</strong> votes in <strong>round&nbsp;{round.round}</strong>.</span>
             }
 
         } else {
-            return null;
+            return null
         }
     }
 

@@ -8,6 +8,9 @@
     },
     "extends": "eslint:recommended",
     "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "react"
+    ],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"

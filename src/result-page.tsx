@@ -4,8 +4,8 @@ import { Report } from './report'
 import { FirstAlternateMatrix } from './first-alternate-matrix'
 import { PairwisePrefsMatrix } from './pairwise-prefs-matrix'
 import { CaptionedSankey } from './components/captioned-sankey'
-import { UltimateVoteMatrix } from './ultimate-vote-matrix';
-import { numberToString } from './numbers';
+import { UltimateVoteMatrix } from './ultimate-vote-matrix'
+import { numberToString } from './numbers'
 
 type ResultPageProps = {
     report: Report
@@ -23,7 +23,7 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
             <h1>{this.props.report.meta.name}</h1>
 
             <p><strong>{this.props.report.winner}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
-            {
+                {
                     this.props.report.condorcet ?
                         <span>, and was also the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
                         : '.'
