@@ -1,0 +1,9 @@
+@media only screen and (min-width: @tabletBreakpoint) {
+    .right-if-not-stacked {
+        text-align: right;
+    }
+
+    .top-margin-if-not-stacked {
+        margin-top: 130px;
+    }
+}
