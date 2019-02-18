@@ -1,21 +1,24 @@
 import * as React from 'react'
 import * as d3 from 'd3'
 
-export type HeatmapElement<D> = {
-    row: string,
-    col: string,
-    value: number,
-    data?: D,
+import { CandidateMap } from '../candidate-map'
+
+export interface HeatmapElement<D> {
+    row: string
+    col: string
+    value: number
+    data?: D
 }
 
-type HeatmapProps<D> = {
-    data: HeatmapElement<D>[],
-    rows: string[],
-    cols: string[],
-    selected?: HeatmapElement<D>,
-    hoverCell?: ((HeatmapElement) => void),
-    xlabel: string,
-    ylabel: string,
+interface HeatmapProps<D> {
+    data: HeatmapElement<D>[]
+    rows: string[]
+    cols: string[]
+    selected?: HeatmapElement<D>
+    hoverCell?: ((HeatmapElement) => void)
+    xlabel: string
+    ylabel: string
+    nameMap: CandidateMap
 }
 
 export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
@@ -38,6 +41,8 @@ export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
         let width = LABELSIZE + MARGIN + SIZE * this.props.cols.length
         let height = LABELSIZE + MARGIN + SIZE * this.props.rows.length
 
+        let getName = this.props.nameMap.getName.bind(this.props.nameMap)
+
         return <svg width={width} style={{ maxWidth: '100%' }} viewBox={`0 0 ${width} ${height}`}>
             <text textAnchor="middle" x={LABELSIZE + (width - LABELSIZE) / 2} dominantBaseline="text-before-edge">{this.props.xlabel}</text>
             <text textAnchor="middle" dominantBaseline="text-before-edge" transform={`translate(0 ${LABELSIZE + (height - LABELSIZE) / 2}) rotate(-90)`}>{this.props.ylabel}</text>
@@ -51,7 +56,7 @@ export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
                             textAnchor="end"
                             dominantBaseline="middle"
                             fontSize={FONT_SIZE}
-                        >{c}</text>
+                        >{getName(c)}</text>
                     )
                 }
             </g>
@@ -64,7 +69,7 @@ export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
                             transform={`translate(${xScale(c)}) rotate(-90)`}
                             dominantBaseline="middle"
                             fontSize={FONT_SIZE}
-                        >{c}</text>
+                        >{getName(c)}</text>
                     )
                 }
             </g>

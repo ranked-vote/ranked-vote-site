@@ -1,17 +1,19 @@
 import * as React from 'react'
 
 import { Heatmap, HeatmapElement } from './heatmap'
+import { CandidateMap } from '../candidate-map'
 
-type CaptionedHeatmapProps<D> = {
-    data: HeatmapElement<D>[],
-    rows: string[],
-    cols: string[],
-    generateCaption: (HeatmapElement) => React.ReactElement<any>,
-    xlabel: string,
-    ylabel: string,
+interface CaptionedHeatmapProps<D> {
+    data: HeatmapElement<D>[]
+    rows: string[]
+    cols: string[]
+    generateCaption: (HeatmapElement) => React.ReactElement<any>
+    xlabel: string
+    ylabel: string
+    nameMap: CandidateMap
 };
 
-type CaptionedHeatmapState<D> = {
+interface CaptionedHeatmapState<D> {
     selected: HeatmapElement<D>
 }
 
@@ -40,6 +42,7 @@ export class CaptionedHeatmap<D> extends React.Component<CaptionedHeatmapProps<D
         return <div className="ui stackable grid" style={{ margin: '30px 0' }} onMouseLeave={this.hoverOut.bind(this)}>
             <div className="nine wide column right-if-not-stacked">
                 <Heatmap
+                    nameMap={this.props.nameMap}
                     data={this.props.data}
                     rows={this.props.rows}
                     cols={this.props.cols}

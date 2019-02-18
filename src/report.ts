@@ -1,5 +1,17 @@
+export const EXHAUSTED = '$EXHAUSTED'
+export const WRITE_IN = '$WRITE_IN'
+
+export interface Candidate {
+    id: string
+    name: string
+    write_in?: boolean
+    party?: string
+    exhausted?: boolean
+}
+
 export interface Meta {
     name: string
+    candidates: Candidate[]
     date: string
     format: string
     tabulation: string

@@ -1,13 +1,15 @@
 import * as React from 'react'
 import * as d3 from 'd3'
 
-import { Round, CandidateVotes, VoteTransfer } from '../report'
+import { Round, CandidateVotes, VoteTransfer, EXHAUSTED } from '../report'
+import { CandidateMap } from '../candidate-map'
 
-type SankeyProps = {
-    data: Round[],
-    hoverNode?: ((CandidateVotes, Round) => void),
-    hoverEdge?: ((VoteTransfer, Round) => void),
-    selected: { edge?: VoteTransfer, node?: CandidateVotes, round?: Round },
+interface SankeyProps {
+    data: Round[]
+    hoverNode?: ((CandidateVotes, Round) => void)
+    hoverEdge?: ((VoteTransfer, Round) => void)
+    selected: { edge?: VoteTransfer, node?: CandidateVotes, round?: Round }
+    nameMap: CandidateMap
 }
 
 export class Sankey extends React.Component<SankeyProps, {}> {
@@ -18,6 +20,8 @@ export class Sankey extends React.Component<SankeyProps, {}> {
         const BAR_HEIGHT = 20
         const LABEL_MARGIN = 100
         const LABELSIZE = 130
+
+        let getName = this.props.nameMap.getName.bind(this.props.nameMap)
 
         let rounds = this.props.data
 
@@ -118,7 +122,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                             y={r.y}
                             width={r.width}
                             height={BAR_HEIGHT}
-                            fill={(r.data.candidate === null) ? '#333' : '#aa4488'}
+                            fill={(r.data.candidate === EXHAUSTED) ? '#333' : '#aa4488'}
                             opacity={this.props.selected && (r.data == this.props.selected.node) ? 1.0 : 0.8}
                             onMouseOver={() => this.props.hoverNode(r.data, r.round)}
 
@@ -143,7 +147,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                                 key={i}
                                 dominantBaseline="middle"
                                 transform={`translate(${result.x} ${LABELSIZE}) rotate(-90)`}
-                            > {result.label}</text>)
+                            > {getName(result.label)}</text>)
                 }
                 {
                     bottomLabels.map(
@@ -153,7 +157,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                                 dominantBaseline="middle"
                                 textAnchor="end"
                                 transform={`translate(${result.x} ${totalHeight - LABELSIZE}) rotate(-90)`}
-                            > {result.label}</text>)
+                            > {getName(result.label)}</text>)
                 }
             </g>
             {
