@@ -1,36 +1,36 @@
 import * as React from 'react'
 
-import { FirstAlternateEntry } from './report'
+import { PairwiseStat } from './report'
 import { HeatmapElement } from './components/heatmap'
 import { CaptionedHeatmap } from './components/captioned-heatmap'
 
-export class FirstAlternateMatrix extends React.Component<{ data: FirstAlternateEntry[], candidates: string[] }, {}> {
+export class FirstAlternateMatrix extends React.Component<{ data: PairwiseStat[], candidates: string[] }, {}> {
     render() {
-        const EXHAUSTED_BALLOT = 'Exhausted Ballot';
-        let data: HeatmapElement[] = this.props.data.map((d) => {
+        const EXHAUSTED_BALLOT = '$UNDERVOTE';
+        let data: HeatmapElement<PairwiseStat>[] = this.props.data.map((d) => {
             return {
-                row: d.firstCandidate,
-                col: d.secondCandidate || EXHAUSTED_BALLOT,
-                value: d.fracVotes,
+                row: d.first_candidate,
+                col: d.second_candidate || EXHAUSTED_BALLOT,
+                value: d.numerator / d.denominator,
                 data: d
             }
         });
 
         let cols = this.props.candidates.concat([EXHAUSTED_BALLOT]);
 
-        let generateCaption = (element: HeatmapElement) => {
-            let data = element.data as FirstAlternateEntry;
-            let pct = (data.fracVotes * 100).toFixed(1);
+        let generateCaption = (element: HeatmapElement<PairwiseStat>) => {
+            let data = element.data;
+            let pct = ((data.numerator / data.denominator) * 100).toFixed(1);
 
-            if (data.secondCandidate === null) {
+            if (data.second_candidate === null) {
                 return <span>
-                    <strong>{pct}%</strong> of voters (<strong>{data.numVotes.toLocaleString()}</strong>) who voted
-                    for <strong>{data.firstCandidate}</strong> as their first choice did not vote for a second choice.
+                    <strong>{pct}%</strong> of voters (<strong>{data.numerator.toLocaleString()}</strong>) who voted
+                    for <strong>{data.first_candidate}</strong> as their first choice did not vote for a second choice.
                 </span>
             } else {
                 return <span>
-                    <strong>{pct}%</strong> of voters (<strong>{data.numVotes.toLocaleString()}</strong>) who voted
-                    for <strong>{data.firstCandidate}</strong> voted for <strong>{data.secondCandidate}</strong> as their second choice.
+                    <strong>{pct}%</strong> of voters (<strong>{data.numerator.toLocaleString()}</strong>) who voted
+                    for <strong>{data.first_candidate}</strong> voted for <strong>{data.second_candidate}</strong> as their second choice.
                 </span>
             }
         }

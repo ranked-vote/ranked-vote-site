@@ -32,7 +32,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             {
-                context: '../elections/',
+                context: 'ranked-vote-data/reports',
                 from: '**/report.json',
             },
             {

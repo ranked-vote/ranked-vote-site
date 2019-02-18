@@ -1,24 +1,24 @@
 import * as React from 'react'
 import * as d3 from 'd3'
 
-export type HeatmapElement = {
+export type HeatmapElement<D> = {
     row: string,
     col: string,
     value: number,
-    data?: any,
+    data?: D,
 }
 
-type HeatmapProps = {
-    data: HeatmapElement[],
+type HeatmapProps<D> = {
+    data: HeatmapElement<D>[],
     rows: string[],
     cols: string[],
-    selected?: HeatmapElement,
+    selected?: HeatmapElement<D>,
     hoverCell?: ((HeatmapElement) => void),
     xlabel: string,
     ylabel: string,
 }
 
-export class Heatmap extends React.Component<HeatmapProps, {}> {
+export class Heatmap<D> extends React.Component<HeatmapProps<D>, {}> {
     render() {
         const SIZE = 50;
         const LABELSIZE = 130;

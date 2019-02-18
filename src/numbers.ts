@@ -11,11 +11,11 @@ export function numberToString(n: number) {
         7: 'seven',
         8: 'eight',
         9: 'nine',
-    };
+    }
 
     if (d[n] !== undefined) {
-        return d[n];
+        return d[n]
     } else {
-        return n.toLocaleString();
+        return n.toLocaleString()
     }
 }

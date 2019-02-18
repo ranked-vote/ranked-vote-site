@@ -2,8 +2,8 @@ import * as React from 'react'
 
 import { Heatmap, HeatmapElement } from './heatmap'
 
-type CaptionedHeatmapProps = {
-    data: HeatmapElement[],
+type CaptionedHeatmapProps<D> = {
+    data: HeatmapElement<D>[],
     rows: string[],
     cols: string[],
     generateCaption: (HeatmapElement) => React.ReactElement<any>,
@@ -11,11 +11,11 @@ type CaptionedHeatmapProps = {
     ylabel: string,
 };
 
-type CaptionedHeatmapState = {
-    selected: HeatmapElement
+type CaptionedHeatmapState<D> = {
+    selected: HeatmapElement<D>
 }
 
-export class CaptionedHeatmap extends React.Component<CaptionedHeatmapProps, CaptionedHeatmapState> {
+export class CaptionedHeatmap<D> extends React.Component<CaptionedHeatmapProps<D>, CaptionedHeatmapState<D>> {
     constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ export class CaptionedHeatmap extends React.Component<CaptionedHeatmapProps, Cap
         };
     }
 
-    hoverCell(element: HeatmapElement) {
+    hoverCell(element: HeatmapElement<D>) {
         this.setState({
             selected: element
         });

@@ -18,6 +18,12 @@ export interface CandidateVotes {
     votes: number
 }
 
+export interface VoteTransfer {
+    to: string
+    from: string
+    count: number
+}
+
 export interface Round {
     round: number
     candidates: string[]
@@ -26,6 +32,7 @@ export interface Round {
     overvote: number
     continuing_ballots: number
     eliminated: string[]
+    transfers: VoteTransfer[]
 }
 
 export interface Graph {
@@ -40,14 +47,21 @@ export interface PairwiseStat {
     denominator: number
 }
 
+export interface FinalByFirstMatrix {
+    finalists: string[]
+    eliminated: string[]
+    pairs: PairwiseStat[]
+}
+
 export interface Report {
     meta: Meta
     candidates: string[]
+    winner: string,
     rounds: Round[]
     smith_set: string[]
     condorcet: string | null
     graph: Graph
     pairwise: PairwiseStat[]
     first_alternates: PairwiseStat[]
-    final_by_first: PairwiseStat[]
+    final_by_first: FinalByFirstMatrix
 }

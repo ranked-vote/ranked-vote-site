@@ -17,14 +17,14 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
             <div className="ui breadcrumb">
                 <a className="section" href="/">Ranked.Vote</a>
                 <div className="divider"> / </div>
-                <a className="active section" href="#">{this.props.report.election.name}</a>
+                <a className="active section" href="#">{this.props.report.meta.name}</a>
             </div>
 
-            <h1>{this.props.report.election.name}</h1>
+            <h1>{this.props.report.meta.name}</h1>
 
-            <p><strong>{this.props.report.outcome.winner}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
+            <p><strong>{this.props.report.winner}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
             {
-                    this.props.report.outcome.condorcet ?
+                    this.props.report.condorcet ?
                         <span>, and was also the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
                         : '.'
                 }
@@ -41,16 +41,16 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
                 A preference means that either a voter ranks a candidate ahead of the other, or ranks a candidate but does not list the other.
                 Ballots which list neither candidate are not counted towards the percent counts.
             </p>
-            <PairwisePrefsMatrix data={this.props.report.pairwisePreferences} candidates={this.props.report.candidates} />
+            <PairwisePrefsMatrix data={this.props.report.pairwise} candidates={this.props.report.candidates} />
 
             <h2>First Alternate</h2>
             <p>For every pair of candidates, this table shows the fraction of voters who ranked one candidate first ranked the other candidate second.
             </p>
-            <FirstAlternateMatrix data={this.props.report.firstAlternates} candidates={this.props.report.candidates} />
+            <FirstAlternateMatrix data={this.props.report.first_alternates} candidates={this.props.report.candidates} />
 
             <h2>Final-round vote by First vote</h2>
             <p>For each candidate who was eliminated before the final round, this table shows which final-round candidate the eliminated candidate's first-round ballots went to.</p>
-            <UltimateVoteMatrix data={this.props.report.ultimateVotes} eliminated={this.props.report.outcome.eliminated} final={this.props.report.outcome.final} />
+            <UltimateVoteMatrix data={this.props.report.final_by_first.pairs} eliminated={this.props.report.final_by_first.eliminated} final={this.props.report.final_by_first.finalists} />
         </div>
     }
 }

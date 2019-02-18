@@ -58,29 +58,29 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                 if (round === rounds[0]) {
                     topLabels.push({
                         x: cumX + width / 2,
-                        label: candidate.candidate
+                        label: candidate.name
                     });
                 } else if (round === rounds[rounds.length - 1]) {
                     bottomLabels.push({
                         x: cumX + width / 2,
-                        label: candidate.candidate
+                        label: candidate.name
                     })
                 }
 
-                curX.set(candidate.candidate, cumX);
-                thisX.set(candidate.candidate, cumX);
+                curX.set(candidate.name, cumX);
+                thisX.set(candidate.name, cumX);
 
                 cumX += xScale(candidate.votes) + BUFFER;
             }
 
             for (let transfer of round.transfers) {
-                let width = xScale(transfer.votes);
+                let width = xScale(transfer.count);
 
-                let x0 = lastX.get(transfer.fromCandidate);
-                lastX.set(transfer.fromCandidate, x0 + width);
+                let x0 = lastX.get(transfer.from);
+                lastX.set(transfer.from, x0 + width);
 
-                let x1 = curX.get(transfer.toCandidate);
-                curX.set(transfer.toCandidate, x1 + width);
+                let x1 = curX.get(transfer.to);
+                curX.set(transfer.to, x1 + width);
 
                 edges.push({
                     x0: x0,
@@ -136,7 +136,6 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                             onMouseOver={() => this.props.hoverEdge(e.data, e.round)}
                         />)
                 }
-
                 {
                     topLabels.map(
                         (result, i) =>
@@ -146,7 +145,6 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                                 transform={`translate(${result.x} ${LABELSIZE}) rotate(-90)`}
                             > {result.label}</text>)
                 }
-
                 {
                     bottomLabels.map(
                         (result, i) =>
@@ -163,7 +161,6 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                     <text key={i} dominantBaseline="text-before-edge" y={yScale(r.round)}>Round {r.round}</text>
                 )
             }
-
-        </svg>;
+        </svg>
     }
 }
