@@ -1,3 +1,6 @@
 [submodule "data"]
 	path = ranked-vote-data
 	url = https://github.com/ranked-vote/ranked-vote-data.git
+[submodule "style/semantic-ui"]
+	path = style/semantic-ui
+	url = https://github.com/Semantic-Org/Semantic-UI-LESS.git
