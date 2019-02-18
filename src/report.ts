@@ -1,64 +1,53 @@
-
-export type PairwisePreferenceEntry = {
-    candidate1: string,
-    candidate2: string,
-    listedEither: number,
-    preferred1: number,
-    preferred1Pct: number,
+export interface Meta {
+    name: string
+    date: string
+    format: string
+    tabulation: string
+    files: [
+        {
+            name: string
+            sha1: string
+        }
+    ]
+    num_ballots: number
+    normalized_ballots: string
 }
 
-export type FirstAlternateEntry = {
-    firstCandidate: string,
-    secondCandidate: string,
-    numVotes: number,
-    fracVotes: number,
-}
-
-export type CandidateVotes = {
-    candidate: string,
-    votes: number,
-}
-
-export type VoteTransfer = {
-    fromCandidate: string,
-    toCandidate: string,
+export interface CandidateVotes {
+    name: string
     votes: number
 }
 
-export type Round = {
-    round: number,
-    results: CandidateVotes[],
-    eliminated: string[],
-    transfers: VoteTransfer[],
+export interface Round {
+    round: number
+    candidates: string[]
+    results: CandidateVotes[]
+    undervote: number
+    overvote: number
+    continuing_ballots: number
+    eliminated: string[]
 }
 
-export type Election = {
-    name: string,
-    method: string,
-    date: string,
+export interface Graph {
+    source: string
+    edges: string[]
 }
 
-export type Outcome = {
-    winner: string,
-    condorcet: boolean,
-    eliminated: string[],
-    final: string[],
+export interface PairwiseStat {
+    first_candidate: string
+    second_candidate: string
+    numerator: number
+    denominator: number
 }
 
-export type UltimateVote = {
-    firstChoice: string,
-    ultimateChoice: string,
-    num: number,
-    frac: number,
-}
-
-export type Report = {
-    ballots: number,
-    election: Election,
-    candidates: string[],
-    pairwisePreferences: PairwisePreferenceEntry[],
-    firstAlternates: FirstAlternateEntry[],
-    rounds: Round[],
-    outcome: Outcome,
-    ultimateVotes: UltimateVote[],
+export interface Report {
+    meta: Meta
+    candidates: string[]
+    rounds: Round[]
+    smith_set: string[]
+    condorcet: string | null
+    graph: Graph
+    pairwise: PairwiseStat[]
+    first_alternates: PairwiseStat[]
+    final_by_first: PairwiseStat[]
 }

@@ -49,9 +49,11 @@ export default function render(locals) {
     let reports = [];
 
     for (let file of files) {
+        console.log(file)
+
         let data = JSON.parse(fs.readFileSync(wd + '/' + file, 'utf8')) as Report;
         let outPath = path.dirname(file);
-        let title = data.election.name + ' : Results and Analysis';
+        let title = data.meta.name + ' : Results and Analysis';
 
         results[outPath] = renderTemplate(
             ReactDOMServer.renderToString(<ResultPage report={data} />),
@@ -60,7 +62,7 @@ export default function render(locals) {
             script);
 
         reports.push({
-            name: data.election.name,
+            name: data.meta.name,
             path: outPath
         });
     }
