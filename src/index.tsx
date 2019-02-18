@@ -39,8 +39,8 @@ function renderTemplate(body, title, analytics_code, headElements?) {
 
 export default function render(locals) {
     const script = '<script src="/main.js"></script>';
-    let wd = `${locals.cwd}/../elections`;
-    let files = glob.sync('**/report.json', { cwd: wd });
+    let wd = `${locals.cwd}/ranked-vote-data/reports/`;
+    let files = glob.sync('**/*.json', { cwd: wd });
 
     let analytics_code = locals.analytics_code || '';
 
