@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as d3 from 'd3'
 
-import { Round, CandidateVotes, VoteTransfer, EXHAUSTED } from '../report'
+import { Round, CandidateVotes, VoteTransfer, EXHAUSTED, Candidate } from '../report'
 import { CandidateMap } from '../candidate-map'
 
 interface SankeyProps {
@@ -10,6 +10,14 @@ interface SankeyProps {
     hoverEdge?: ((VoteTransfer, Round) => void)
     selected: { edge?: VoteTransfer, node?: CandidateVotes, round?: Round }
     nameMap: CandidateMap
+}
+
+interface Node {
+    x: number
+    y: number
+    width: number
+    data: CandidateVotes
+    round: Round
 }
 
 export class Sankey extends React.Component<SankeyProps, {}> {
@@ -38,7 +46,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
             .domain([1, rounds.length])
             .range([LABELSIZE + 5, totalHeight - BAR_HEIGHT - LABELSIZE - 5])
 
-        let nodes = []
+        let nodes: Node[] = []
         let edges = []
         let lastX = new Map()
         let topLabels = []
@@ -122,7 +130,7 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                             y={r.y}
                             width={r.width}
                             height={BAR_HEIGHT}
-                            fill={(r.data.candidate === EXHAUSTED) ? '#333' : '#aa4488'}
+                            fill={(r.data.name == EXHAUSTED) ? '#333' : '#aa4488'}
                             opacity={this.props.selected && (r.data == this.props.selected.node) ? 1.0 : 0.8}
                             onMouseOver={() => this.props.hoverNode(r.data, r.round)}
 
