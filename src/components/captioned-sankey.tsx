@@ -76,14 +76,16 @@ export class CaptionedSankey extends React.Component<CaptionedSankeyProps, Capti
     }
 
     render() {
-        return <div className="ui stackable grid" style={{ margin: '30px 0' }} onMouseLeave={this.hoverOut.bind(this)}>
+        return <div className="ui stackable grid" style={{ margin: '30px 0' }}>
             <div className="ten wide column">
                 <Sankey data={this.props.data} hoverNode={this.hoverNode.bind(this)} hoverEdge={this.hoverEdge.bind(this)} selected={this.state.selected} nameMap={this.props.nameMap} />
             </div>
-            <div className="six wide column top-margin-if-not-stacked">
-                {
-                    this.state.selected ? this.generateCaption() : null
-                }
+            <div className="six wide column top-margin-if-not-stacked" style={{ position: 'relative' }}>
+                <div style={{ position: 'sticky', top: 20 }}>
+                    {
+                        this.state.selected ? this.generateCaption() : null
+                    }
+                </div>
             </div>
         </div>
     }

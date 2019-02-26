@@ -46,7 +46,7 @@ export default function render(locals: { analytics_code?: string, cwd: string })
 
     let results = {}
 
-    let reports = []
+    let reports: { name: string, path: string }[] = []
 
     for (let file of files) {
         let data = JSON.parse(fs.readFileSync(wd + '/' + file, 'utf8')) as Report
@@ -64,6 +64,12 @@ export default function render(locals: { analytics_code?: string, cwd: string })
             path: outPath
         })
     }
+
+    reports.sort((a, b) => {
+        let aName = a.name.replace(/\b(\d)\b/g, '0$1')
+        let bName = b.name.replace(/\b(\d)\b/g, '0$1')
+        return aName.localeCompare(bName)
+    })
 
     results['./'] = renderTemplate(
         ReactDOMServer.renderToString(<HomePage reports={reports} />),
