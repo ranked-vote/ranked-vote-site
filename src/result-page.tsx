@@ -4,6 +4,7 @@ import { Report } from './report'
 import { FirstAlternateMatrix } from './first-alternate-matrix'
 import { PairwisePrefsMatrix } from './pairwise-prefs-matrix'
 import { CaptionedSankey } from './components/captioned-sankey'
+import { MetaDataTable } from './components/meta-data-table'
 import { UltimateVoteMatrix } from './ultimate-vote-matrix'
 import { numberToString } from './numbers'
 import { CandidateMap } from './candidate-map'
@@ -25,7 +26,9 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
 
             <h1>{this.props.report.meta.name}</h1>
 
-            <p><strong>{candidateMap.getName(this.props.report.winner)}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
+            <p>
+                The <strong>{this.props.report.meta.name}</strong> took place on <strong>{this.props.report.meta.date}</strong>. <strong>
+                    {candidateMap.getName(this.props.report.winner)}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
                 {
                     this.props.report.condorcet === this.props.report.winner ?
                         <span>, and was also the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
@@ -54,6 +57,9 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
             <h2>Final-round vote by First vote</h2>
             <p>For each candidate who was eliminated before the final round, this table shows which final-round candidate the eliminated candidate's first-round ballots went to.</p>
             <UltimateVoteMatrix data={this.props.report.final_by_first.pairs} eliminated={this.props.report.final_by_first.eliminated} final={this.props.report.final_by_first.finalists} nameMap={candidateMap} />
+
+            <h2>Meta</h2>
+            <MetaDataTable data={this.props.report} />
         </div>
     }
 }
