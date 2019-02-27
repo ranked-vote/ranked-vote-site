@@ -46,7 +46,7 @@ export default function render(locals: { analytics_code?: string, cwd: string })
 
     let results = {}
 
-    let reports: { name: string, path: string }[] = []
+    let reportsByYear: Map<number, { name: string, path: string }[]> = new Map()
 
     for (let file of files) {
         let data = JSON.parse(fs.readFileSync(wd + '/' + file, 'utf8')) as Report
@@ -59,20 +59,22 @@ export default function render(locals: { analytics_code?: string, cwd: string })
             analytics_code,
             script)
 
-        reports.push({
+        let year = parseInt(data.meta.date.substr(0, 4))
+        reportsByYear.has(year) ? null : reportsByYear.set(year, [])
+        reportsByYear.get(year).push({
             name: data.meta.name,
             path: outPath
         })
     }
 
-    reports.sort((a, b) => {
+    reportsByYear.forEach((reports) => reports.sort((a, b) => {
         let aName = a.name.replace(/\b(\d)\b/g, '0$1')
         let bName = b.name.replace(/\b(\d)\b/g, '0$1')
         return aName.localeCompare(bName)
-    })
+    }))
 
     results['./'] = renderTemplate(
-        ReactDOMServer.renderToString(<HomePage reports={reports} />),
+        ReactDOMServer.renderToString(<HomePage reportsByYear={reportsByYear} />),
         'Ranked.Vote: Results from Instant Runoff Elections',
         analytics_code)
 

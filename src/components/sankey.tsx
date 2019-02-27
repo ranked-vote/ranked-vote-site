@@ -88,8 +88,6 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                 cumX += xScale(candidate.votes) + BUFFER
             }
 
-            console.log(maxX.entries())
-
             for (let transfer of round.transfers) {
                 let width = xScale(transfer.count)
 

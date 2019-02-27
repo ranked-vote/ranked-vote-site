@@ -1,11 +1,15 @@
 import * as React from 'react'
 
 type HomePageProps = {
-    reports: { name: string, path: string }[]
+    reportsByYear: Map<number, { name: string, path: string }[]>
 }
 
 export class HomePage extends React.Component<HomePageProps, {}> {
+
     render() {
+        let orderedReportsByYear = Array.from(this.props.reportsByYear.entries())
+        orderedReportsByYear.sort((a, b) => b[0] - a[0])
+
         return <div>
             <h1>Ranked.Vote</h1>
 
@@ -15,8 +19,15 @@ export class HomePage extends React.Component<HomePageProps, {}> {
 
             <ul>
                 {
-                    this.props.reports.map((r, i) =>
-                        <li key={i}><a href={r.path}>{r.name}</a></li>
+                    orderedReportsByYear.map(([year, reports]) =>
+                        <>
+                            <li>{year}</li>
+                            <ul>
+                                {reports.map((r, i) =>
+                                    <li key={i}><a href={r.path}>{r.name}</a></li>
+                                )}
+                            </ul>
+                        </>
                     )
                 }
             </ul>
