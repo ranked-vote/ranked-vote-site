@@ -51,14 +51,16 @@ export class Sankey extends React.Component<SankeyProps, {}> {
         let lastX = new Map()
         let topLabels = []
         let bottomLabels = []
+        let lastMaxX = new Map()
 
         for (let round of rounds) {
             let cumX = (firstRoundCandidates - round.results.length) * BUFFER / 2
             let thisX = new Map()
             let curX = new Map()
+            let maxX = new Map()
 
             for (let candidate of round.results) {
-                let width = xScale(candidate.votes)
+                let width = Math.max(xScale(candidate.votes), 1)
                 nodes.push({
                     x: cumX,
                     y: yScale(round.round),
@@ -79,19 +81,22 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                     })
                 }
 
+                maxX.set(candidate.name, width + cumX)
                 curX.set(candidate.name, cumX)
                 thisX.set(candidate.name, cumX)
 
                 cumX += xScale(candidate.votes) + BUFFER
             }
 
+            console.log(maxX.entries())
+
             for (let transfer of round.transfers) {
                 let width = xScale(transfer.count)
 
-                let x0 = lastX.get(transfer.from)
+                let x0 = Math.min(lastX.get(transfer.from), lastMaxX.get(transfer.from) - 1)
                 lastX.set(transfer.from, x0 + width)
 
-                let x1 = curX.get(transfer.to)
+                let x1 = Math.min(curX.get(transfer.to), maxX.get(transfer.to) - 1)
                 curX.set(transfer.to, x1 + width)
 
                 edges.push({
@@ -99,13 +104,14 @@ export class Sankey extends React.Component<SankeyProps, {}> {
                     x1: x1,
                     y0: yScale(round.round - 1) + BAR_HEIGHT,
                     y1: yScale(round.round),
-                    width: width,
+                    width: Math.max(width, 1),
                     data: transfer,
                     round: round,
                 })
             }
 
             lastX = thisX
+            lastMaxX = maxX
         }
 
         let sankeyPath = (e) => {
