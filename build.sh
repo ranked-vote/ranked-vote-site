@@ -2,7 +2,7 @@
 
 set -e
 
-#npm install
+npm install
 
 ln -fs ../theme.config ../style.less ../site style/semantic-ui
 ./node_modules/.bin/lessc -clean-css="keepSpecialComments=1" style/semantic-ui/style.less dist/style.css
