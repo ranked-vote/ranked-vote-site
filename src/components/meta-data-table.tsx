@@ -10,6 +10,16 @@ export class MetaDataTable extends React.Component<MetaDataTableProps, {}> {
     render() {
         let data = this.props.data
 
+        const tabulationMethods = {
+            'irv': 'https://github.com/ranked-vote/ranked-vote-tools/blob/master/ranked_vote/methods/instant_runoff.py',
+            'eager_irv': 'https://github.com/ranked-vote/ranked-vote-tools/blob/master/ranked_vote/methods/eager_instant_runoff.py',
+        }
+
+        const formats = {
+            'us_ca_sfo': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/ca/sfo/__init__.py',
+            'us_me': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/me/__init__.py',
+        }
+
         return <div>
             <table className="ui very basic table">
                 <tbody>
@@ -27,11 +37,11 @@ export class MetaDataTable extends React.Component<MetaDataTableProps, {}> {
                     </tr>
                     <tr>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>Input Format</td>
-                        <td>{data.meta.format}</td>
+                        <td><a href={formats[data.meta.format]}>{data.meta.format}</a></td>
                     </tr>
                     <tr>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>Tabulation Method</td>
-                        <td>{data.meta.tabulation}</td>
+                        <td><a href={tabulationMethods[data.meta.tabulation]}>{data.meta.tabulation}</a></td>
                     </tr>
                     <tr>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>Normalized Ballot Data</td>

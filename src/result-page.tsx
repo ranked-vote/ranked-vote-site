@@ -28,7 +28,8 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
 
             <p>
                 The <strong>{this.props.report.meta.name}</strong> took place on <strong>{this.props.report.meta.date}</strong>. <strong>
-                    {candidateMap.getName(this.props.report.winner)}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff rounds
+                    {candidateMap.getName(this.props.report.winner)}</strong> won after <strong>{numberToString(this.props.report.rounds.length)}</strong> runoff {
+                    this.props.report.rounds.length > 1 ? 'rounds' : 'round'}
                 {
                     this.props.report.condorcet === this.props.report.winner ?
                         <span>, and was also the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
@@ -42,21 +43,31 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
 
             <CaptionedSankey data={this.props.report.rounds} nameMap={candidateMap} />
 
-            <h2>Pairwise Preferences</h2>
-            <p>For every pair of candidates, this table shows what fraction of voters preferred one to the other.
-                A preference means that either a voter ranks a candidate ahead of the other, or ranks a candidate but does not list the other.
-                Ballots which list neither candidate are not counted towards the percent counts.
-            </p>
-            <PairwisePrefsMatrix data={this.props.report.pairwise} candidates={this.props.report.candidates} nameMap={candidateMap} />
+            {
+                this.props.report.meta.candidates.length < 2 ? null :
+                    <div>
+                        <h2>Pairwise Preferences</h2>
+                        <p>For every pair of candidates, this table shows what fraction of voters preferred one to the other.
+                            A preference means that either a voter ranks a candidate ahead of the other, or ranks a candidate but does not list the other.
+                            Ballots which list neither candidate are not counted towards the percent counts.
+                        </p>
+                        <PairwisePrefsMatrix data={this.props.report.pairwise} candidates={this.props.report.candidates} nameMap={candidateMap} />
 
-            <h2>First Alternate</h2>
-            <p>For every pair of candidates, this table shows the fraction of voters who ranked one candidate first ranked the other candidate second.
-            </p>
-            <FirstAlternateMatrix data={this.props.report.first_alternates} candidates={this.props.report.candidates} nameMap={candidateMap} />
+                        <h2>First Alternate</h2>
+                        <p>For every pair of candidates, this table shows the fraction of voters who ranked one candidate first ranked the other candidate second.
+                        </p>
+                        <FirstAlternateMatrix data={this.props.report.first_alternates} candidates={this.props.report.candidates} nameMap={candidateMap} />
+                    </div>
+            }
 
-            <h2>Final-round vote by First vote</h2>
-            <p>For each candidate who was eliminated before the final round, this table shows which final-round candidate the eliminated candidate's first-round ballots went to.</p>
-            <UltimateVoteMatrix data={this.props.report.final_by_first.pairs} eliminated={this.props.report.final_by_first.eliminated} final={this.props.report.final_by_first.finalists} nameMap={candidateMap} />
+            {
+                this.props.report.rounds.length > 1 ?
+                    <div>
+                        <h2>Final-round vote by First vote</h2>
+                        <p>For each candidate who was eliminated before the final round, this table shows which final-round candidate the eliminated candidate's first-round ballots went to.</p>
+                        <UltimateVoteMatrix data={this.props.report.final_by_first.pairs} eliminated={this.props.report.final_by_first.eliminated} final={this.props.report.final_by_first.finalists} nameMap={candidateMap} />
+                    </div> : null
+            }
 
             <h2>Meta</h2>
             <MetaDataTable data={this.props.report} />
