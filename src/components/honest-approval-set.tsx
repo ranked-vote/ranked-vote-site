@@ -12,11 +12,14 @@ const INACTIVE_COLOR = '#ccc'
 
 function HonestApprovalSetItem(props: {data: ApprovalItem, nameMap: CandidateMap}) {
     const barMax = Math.max(props.data.candidate_votes, props.data.other_candidate_votes)
-    //const candidateWins = props.data.candidate_votes > props.data.other_candidate_votes
+    const candidateWins = props.data.candidate_votes > props.data.other_candidate_votes
+    const textColor = candidateWins ? '#000' : '#999'
 
     return <tr>
         <td>
+            <span style={{color: textColor}}>
             {props.nameMap.getName(props.data.candidate)}
+            </span>
         </td>
         <td>
             <svg height={BAR_MARGIN + 2 * BAR_HEIGHT} width={MAX_BAR_WIDTH}>
@@ -36,48 +39,32 @@ function HonestApprovalSetItem(props: {data: ApprovalItem, nameMap: CandidateMap
                     />
             </svg>
         </td>
-        <td>
-            {props.nameMap.getName(props.data.other_candidate)}
+        <td style={{color: textColor}}>
+            {
+                candidateWins ? `Wins ${props.data.candidate_votes.toLocaleString()} to ${props.data.other_candidate_votes.toLocaleString()}`
+                : `Loses ${props.data.other_candidate_votes.toLocaleString()} to ${props.data.candidate_votes.toLocaleString()}`
+            }
         </td>
     </tr>
 }
 
 export function HonestApprovalSet(props: {data: ApprovalSet, nameMap: CandidateMap}) {
-    return <div>
-        <h3>Potential Winners</h3>
-        <table className="ui collapsing table">
+    return  <table className="ui collapsing table">
             <thead>
                 <tr>
                     <th>Candidate</th>
                     <th></th>
-                    <th>Next-best Candidate</th>
+                    <th>Most Favorable Scenario</th>
                 </tr>
             </thead>
             <tbody>
                 {
                     props.data.approval_set.map((d) => <HonestApprovalSetItem data={d} nameMap={props.nameMap} />)
                 }
-            </tbody>
-        </table>
-        {
-            props.data.approval_set_compliment ?
-        <div>
-        <h3>Other Candidates</h3>
-        <table className="ui collapsing table">
-            <thead>
-                <tr>
-                    <th>Candidate</th>
-                    <th></th>
-                    <th>Best Candidate</th>
-                </tr>
-            </thead>
-            <tbody>
                 {
                     props.data.approval_set_compliment.map((d) => <HonestApprovalSetItem data={d} nameMap={props.nameMap} />)
                 }
             </tbody>
-        </table></div> : null
-        }
-    </div>
+        </table>
 
 }
