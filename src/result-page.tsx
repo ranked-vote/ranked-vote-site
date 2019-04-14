@@ -88,7 +88,7 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
                 </li>
             </ul>
 
-            <p>The table below show the maximum vote margin each candidate could have received (over the next best candidate)
+            <p>The table below shows the maximum vote margin each candidate could have received (over the next best candidate)
                 in an approval system, subject to these assumptions.
             </p>
 
