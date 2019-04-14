@@ -8,6 +8,7 @@ import { MetaDataTable } from './components/meta-data-table'
 import { UltimateVoteMatrix } from './ultimate-vote-matrix'
 import { numberToString } from './numbers'
 import { CandidateMap } from './candidate-map'
+import { HonestApprovalSet } from './components/honest-approval-set'
 
 type ResultPageProps = {
     report: Report
@@ -68,6 +69,30 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
                         <UltimateVoteMatrix data={this.props.report.final_by_first.pairs} eliminated={this.props.report.final_by_first.eliminated} final={this.props.report.final_by_first.finalists} nameMap={candidateMap} />
                     </div> : null
             }
+
+            <h2>Honest Approval Set</h2>
+            
+            <p>Another voting system is <a href="https://en.wikipedia.org/wiki/Approval_voting">Approval Voting</a>, which involves
+            indicating one or more candidates you approve of without ranking them. The candidate with the most voters who approve of them wins.
+            It is impossible to know how voters would vote on an approval ballot based on their ranked ballot, but two reasonable assumptions
+            we can narrow down the set of possibe approval ballots. With these possible approval ballots, we
+            can determine which candidates would have had a chance of winning under an approval voting system.
+            </p>
+
+            <p>The assumptions we make are:</p>
+
+            <ul>
+                <li>Every voter who ranked at least one candidate would have voted for at least one candidate in an approval vote.</li>
+                <li>Every voter’s approval votes would be consistent with their ranked ballot, that is, they would not vote for a candidate unless
+                    they also voted for every candidate who appeared above that candidate on their ranked ballot.
+                </li>
+            </ul>
+
+            <p>The tables below show the maximum votes each candidate could get in an approval system without breaking these assumptions. They are broken
+                up into two groups: candidates who conceivably could have won, and candidates that could not have.
+            </p>
+
+            <HonestApprovalSet data={this.props.report.approval_set} nameMap={candidateMap} />
 
             <h2>Meta</h2>
             <MetaDataTable data={this.props.report} />

@@ -14,6 +14,7 @@ export class CandidateMap {
     }
 
     getName(id: string) {
+        if (!this.candidateToInfo.has(id)) return id
         return this.candidateToInfo.get(id).name
     }
 }

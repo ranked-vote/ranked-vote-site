@@ -65,6 +65,18 @@ export interface FinalByFirstMatrix {
     pairs: PairwiseStat[]
 }
 
+export interface ApprovalItem {
+    candidate: string
+    other_candidate: string
+    candidate_votes: number
+    other_candidate_votes: number
+}
+
+export interface ApprovalSet {
+    approval_set: ApprovalItem[]
+    approval_set_compliment: ApprovalItem[]
+}
+
 export interface Report {
     meta: Meta
     candidates: string[]
@@ -76,4 +88,5 @@ export interface Report {
     pairwise: PairwiseStat[]
     first_alternates: PairwiseStat[]
     final_by_first: FinalByFirstMatrix
+    approval_set: ApprovalSet
 }
