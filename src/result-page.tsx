@@ -88,8 +88,8 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
                 </li>
             </ul>
 
-            <p>The tables below show the maximum votes each candidate could have received in an approval system without breaking these assumptions. They are broken
-                up into two groups: candidates who conceivably could have won, and candidates that could not have.
+            <p>The tables below show the maximum vote margin each candidate could have received (over the next best candidate)
+                in an approval system, subject to these assumptions.
             </p>
 
             <HonestApprovalSet data={this.props.report.approval_set} nameMap={candidateMap} />
