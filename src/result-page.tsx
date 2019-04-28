@@ -34,7 +34,7 @@ export class ResultPage extends React.Component<ResultPageProps, {}> {
                 {
                     this.props.report.condorcet === this.props.report.winner ?
                         <span>, and was also the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
-                        : '.'
+                        : <span>, while <strong>{candidateMap.getName(this.props.report.condorcet)}</strong> was the <a href="https://en.wikipedia.org/wiki/Condorcet_method">Condorcet winner</a>.</span>
                 }
             </p>
 
