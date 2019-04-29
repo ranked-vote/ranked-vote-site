@@ -18,6 +18,8 @@ export class MetaDataTable extends React.Component<MetaDataTableProps, {}> {
         const formats = {
             'us_ca_sfo': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/ca/sfo/__init__.py',
             'us_me': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/me/__init__.py',
+            'us_nm_saf': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/nm/saf/__init__.py',
+            'us_vt_btv': 'https://github.com/ranked-vote/ranked-vote-import/blob/master/ranked_vote_import/formats/us/vt/btv/__init__.py',
         }
 
         return <div>
