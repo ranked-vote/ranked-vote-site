@@ -23,7 +23,6 @@ interface Node {
 export class Sankey extends React.Component<SankeyProps, {}> {
     render() {
         const ROUND_HEIGHT = 150
-        const WIDTH = 500
         const BUFFER = 30
         const BAR_HEIGHT = 20
         const LABEL_MARGIN = 100
@@ -38,6 +37,8 @@ export class Sankey extends React.Component<SankeyProps, {}> {
         let firstRoundVotes = d3.sum(rounds[0].results as any, (d: CandidateVotes) => d.votes)
 
         let firstRoundCandidates = rounds[0].results.length
+
+        const WIDTH = 400 + 40 * firstRoundCandidates
 
         let xScale = d3.scaleLinear()
             .domain([0, firstRoundVotes])
